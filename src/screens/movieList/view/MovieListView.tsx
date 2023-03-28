@@ -1,10 +1,10 @@
 import React from 'react';
-import {View, FlatList} from 'react-native';
+import {SafeAreaView, FlatList} from 'react-native';
 import {MovieCardComponent} from '../../../components';
 import {dummyData} from '../../../util/dummydata';
 
 const MovieListView = () => (
-  <View>
+  <SafeAreaView>
     <FlatList
       data={dummyData.results}
       renderItem={({item, index}) => (
@@ -12,7 +12,7 @@ const MovieListView = () => (
       )}
       keyExtractor={(item, _) => String(item.id)}
     />
-  </View>
+  </SafeAreaView>
 );
 
 export default MovieListView;
