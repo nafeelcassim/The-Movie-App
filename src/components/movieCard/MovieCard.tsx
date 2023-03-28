@@ -3,19 +3,28 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 import {MoviesDataContent} from '../../types/response/moviesListResponse';
 import {appConstants} from '../../util/constants';
 import {getImage} from '../../util/utils';
+import CircularProgress from '../circularProgress/CircularProgress';
 
 type MovieCardProps = {
   data: Partial<MoviesDataContent>;
+  index: number;
 };
 
 const MovieCard = (props: MovieCardProps) => {
-  const {data} = props;
+  const {data, index} = props;
   const [imageUrl, setImageUrl] = useState<string>(
     getImage(false, data.poster_path),
   );
   return (
     <View style={styles.card}>
-      <View style={styles.progress} />
+      <CircularProgress
+        size={40}
+        strokeWidth={3}
+        text={`${Math.round(data.popularity ?? 0)}%`}
+        progressPercent={Math.round(data.popularity ?? 0)}
+        pgColor="green"
+        textColor="white"
+      />
       <View style={styles.cardContainer}>
         <Image
           onError={() => {
@@ -29,7 +38,9 @@ const MovieCard = (props: MovieCardProps) => {
         />
         <View style={styles.contentData}>
           <Text style={styles.originalTitle}>
-            {`#1 ${data.original_title ?? appConstants.notAvailableString}`}
+            {`#${index} ${
+              data.original_title ?? appConstants.notAvailableString
+            }`}
           </Text>
           <Text style={styles.title}>{`(${
             data.title ?? appConstants.notAvailableString
