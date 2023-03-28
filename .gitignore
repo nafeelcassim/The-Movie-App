@@ -65,3 +65,6 @@ yarn-error.log
 #.vscode
 vscode
 settings.json
+
+# Environemnt Varibles
+.env
