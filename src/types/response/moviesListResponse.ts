@@ -6,12 +6,13 @@ export interface MoviesListResponse {
 }
 
 export interface MoviesDataContent {
-  poster_path: string;
+  poster_path?: string;
   adult: boolean;
   overview: string;
-  release_date: Date;
+  release_date: string;
   id: number;
   original_title: string;
   title: string;
   popularity: number;
+  original_language: string;
 }
