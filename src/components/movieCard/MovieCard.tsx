@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import React from 'react';
+import {View, Text, StyleSheet, ImageBackground} from 'react-native';
+import FastImage from 'react-native-fast-image';
 import {MoviesDataContent} from '../../types/response/moviesListResponse';
 import {appConstants} from '../../util/constants';
 import {getImage} from '../../util/utils';
@@ -12,61 +13,62 @@ type MovieCardProps = {
 
 const MovieCard = (props: MovieCardProps) => {
   const {data, index} = props;
-  const [imageUrl, setImageUrl] = useState<string>(
-    getImage(false, data.poster_path),
-  );
   return (
-    <View style={styles.card}>
-      <CircularProgress
-        size={40}
-        strokeWidth={3}
-        text={`${Math.round(data.popularity ?? 0)}%`}
-        progressPercent={Math.round(data.popularity ?? 0)}
-        pgColor="green"
-        textColor="white"
-      />
-      <View style={styles.cardContainer}>
-        <Image
-          onError={() => {
-            setImageUrl(getImage(true));
-          }}
-          style={styles.image}
-          source={{
-            uri: imageUrl,
-          }}
-          alt={data.title}
+    <>
+      <View style={styles.card}>
+        <CircularProgress
+          size={40}
+          strokeWidth={3}
+          text={`${Math.round(data.popularity ?? 0)}%`}
+          progressPercent={Math.round(data.popularity ?? 0)}
+          pgColor="green"
+          textColor="white"
         />
-        <View style={styles.contentData}>
-          <Text style={styles.originalTitle}>
-            {`#${index} ${
-              data.original_title ?? appConstants.notAvailableString
-            }`}
-          </Text>
-          <Text style={styles.title}>{`(${
-            data.title ?? appConstants.notAvailableString
-          })`}</Text>
 
-          <View style={styles.otherContentRow}>
-            <Text style={styles.otherContent}>{`${data.release_date} (${
-              data.original_language ?? appConstants.notAvailableString
+        <View style={styles.cardContainer}>
+          <ImageBackground source={require('../../images/no_image.png')}>
+            <FastImage
+              style={styles.image}
+              source={{
+                uri: getImage(false, data.poster_path),
+              }}
+            />
+          </ImageBackground>
+
+          <View style={styles.contentData}>
+            <Text style={styles.originalTitle}>
+              {`#${index} ${
+                data.original_title ?? appConstants.notAvailableString
+              }`}
+            </Text>
+            <Text style={styles.title}>{`(${
+              data.title ?? appConstants.notAvailableString
             })`}</Text>
-            <View style={styles.circleView} />
-            <View style={styles.adultBorder}>
-              <Text adjustsFontSizeToFit={true} style={styles.adultBorderText}>
-                {data.adult ? 'R' : 'All'}
-              </Text>
-            </View>
-          </View>
 
-          <Text
-            ellipsizeMode="tail"
-            numberOfLines={4}
-            style={styles.otherContent}>
-            {data.overview ?? appConstants.notAvailableString}
-          </Text>
+            <View style={styles.otherContentRow}>
+              <Text style={styles.otherContent}>{`${data.release_date} (${
+                data.original_language ?? appConstants.notAvailableString
+              })`}</Text>
+              <View style={styles.circleView} />
+              <View style={styles.adultBorder}>
+                <Text
+                  adjustsFontSizeToFit={true}
+                  style={styles.adultBorderText}>
+                  {data.adult ? 'R' : 'All'}
+                </Text>
+              </View>
+            </View>
+
+            <Text
+              ellipsizeMode="tail"
+              numberOfLines={4}
+              style={styles.otherContent}>
+              {data.overview ?? appConstants.notAvailableString}
+            </Text>
+          </View>
         </View>
       </View>
-    </View>
+    </>
   );
 };
 

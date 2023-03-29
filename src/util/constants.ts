@@ -11,10 +11,11 @@ export const networkConstants = {
 };
 
 export const appStrings = {
-  ERROR: 'Error',
-  WARNING: 'Warning',
-  SUCCESS: 'Success',
-  SOMETHING_WENT_WRONG: 'Something went wrong while fetching data',
+  error: 'Error',
+  warning: 'Warning',
+  success: 'Success',
+  somethingWentWrong: 'Something went wrong while fetching data',
+  noNetworkConnectivity: 'You have lost your network connectivity',
 };
 
 export enum Status {
@@ -25,7 +26,7 @@ export enum Status {
 }
 
 export enum ToastType {
-  SUCCESS = 'success',
-  ERROR = 'error',
-  INFO = 'info',
+  success = 'success',
+  error = 'error',
+  info = 'info',
 }

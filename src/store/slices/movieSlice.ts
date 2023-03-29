@@ -29,6 +29,7 @@ const initialState: MovieSliceState = {
   isEnd: false,
 };
 
+// Async thunk to fetch trending movies
 export const fetchTrendingMovies = createAsyncThunk(
   networkConstants.getTopRatedMovies,
   async (properties: {page: number}, {rejectWithValue}: any) => {
@@ -57,6 +58,7 @@ const movieSlice = createSlice({
   name: 'movie',
   initialState,
   reducers: {
+    // Reducer to reset data when the app loads initially
     resetData: (state: MovieSliceState) => {
       state.loading = false;
       state.page = 0;
@@ -64,6 +66,7 @@ const movieSlice = createSlice({
       state.isEnd = false;
     },
   },
+  // Extra reducer to handle the API call of fetch post
   extraReducers(builder) {
     builder
       .addCase(fetchTrendingMovies.pending, (state: MovieSliceState) => {
@@ -77,6 +80,7 @@ const movieSlice = createSlice({
         fetchTrendingMovies.fulfilled,
         (state: MovieSliceState, action) => {
           state.loading = false;
+          console.log(action.payload.page);
           if (action.payload.page === 1) {
             state.movies = action.payload.movies;
           } else {
@@ -93,9 +97,9 @@ const movieSlice = createSlice({
         state.loading = false;
         state.status = Status.error;
         showToastData(
-          ToastType.ERROR,
-          appStrings.ERROR,
-          appStrings.SOMETHING_WENT_WRONG,
+          ToastType.error,
+          appStrings.error,
+          appStrings.somethingWentWrong,
         );
       });
   },

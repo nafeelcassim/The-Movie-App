@@ -1,9 +1,14 @@
+import {FlashList} from '@shopify/flash-list';
 import React from 'react';
-import {SafeAreaView, FlatList, StyleSheet} from 'react-native';
-import {RefreshControl} from 'react-native-gesture-handler';
+import {SafeAreaView, StyleSheet} from 'react-native';
+import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message';
-import {MovieCardComponent} from '../../../components';
-import AppProgressIndicator from '../../../components/progressIndicator/AppProgressIndicator';
+import {
+  MovieCardComponent,
+  NoDataViewComponent,
+  ProgressIndicatorComponent,
+} from '../../../components';
+
 import {MoviesDataContent} from '../../../types/response/moviesListResponse';
 import {Status} from '../../../util/constants';
 
@@ -29,32 +34,52 @@ const MovieListView = (props: MovieListViewProps) => {
 
   const renderFotterLoader = () => {
     if (!isEnd && status !== Status.error) {
-      return <AppProgressIndicator />;
+      return <ProgressIndicatorComponent />;
     } else {
       return <></>;
     }
   };
 
   return (
-    <SafeAreaView style={!initialLoading ? undefined : styles.loadingContent}>
+    <SafeAreaView
+      style={!initialLoading ? styles.safeArea : styles.loadingContent}>
       {initialLoading ? (
-        <AppProgressIndicator />
+        <ProgressIndicatorComponent />
+      ) : status === Status.error && movies.length === 0 ? (
+        <>
+          <ScrollView
+            contentContainerStyle={styles.scrollContent}
+            refreshControl={
+              <RefreshControl
+                refreshing={initialLoading}
+                onRefresh={() => onRefresh()}
+              />
+            }>
+            <NoDataViewComponent />
+          </ScrollView>
+        </>
       ) : (
-        <FlatList
+        <FlashList
           data={movies}
           renderItem={({item, index}) => (
             <MovieCardComponent data={item} index={index + 1} />
           )}
-          keyExtractor={item => item.poster_path ?? ''}
+          estimatedItemSize={400}
+          keyExtractor={item => String(item.id) ?? ''}
           onEndReachedThreshold={0.5}
           ListFooterComponent={renderFotterLoader}
           onEndReached={listViewOnEndReached}
+          getItemType={item => {
+            return item.id;
+          }}
           refreshControl={
-            <RefreshControl refreshing={initialLoading} onRefresh={onRefresh} />
+            <RefreshControl
+              refreshing={initialLoading}
+              onRefresh={() => onRefresh()}
+            />
           }
         />
       )}
-
       <Toast />
     </SafeAreaView>
   );
@@ -65,6 +90,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  safeArea: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
   },
 });
 

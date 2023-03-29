@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../../../store/hooks';
 import {fetchTrendingMovies, resetData} from '../../../store/slices/movieSlice';
-import {Status} from '../../../util/constants';
+import {appStrings, Status, ToastType} from '../../../util/constants';
 import MovieListView from '../view/MovieListView';
-import NetInfo from '@react-native-community/netinfo';
+import NetInfo, {useNetInfo} from '@react-native-community/netinfo';
+import {showToastData} from '../../../util/utils';
 
 const MovieListController = () => {
   // Constants
@@ -14,34 +15,52 @@ const MovieListController = () => {
   const currentPage = useAppSelector(state => state.movie.page);
   const isEnd = useAppSelector(state => state.movie.isEnd);
 
-  // Useeffect to fetch the initial Data
+  const netInfo = useNetInfo();
+
+  // Use effect to fetch the initial Data
   useEffect(() => {
     const fetchData = () => {
       dispatch(fetchTrendingMovies({page: 1}));
     };
-    dispatch(resetData());
-    fetchData();
+
+    if (netInfo.isConnected) {
+      fetchData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
+  // Use effect to check network connectivity
   useEffect(() => {
+    // Show toast if no network connectivity
     const unsubscribe = NetInfo.addEventListener(state => {
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
+      if (!state.isConnected) {
+        showToastData(
+          ToastType.info,
+          appStrings.warning,
+          appStrings.noNetworkConnectivity,
+        );
+      }
     });
-    unsubscribe();
+
+    // unscribe from event listener
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   // List View End Reached Method
   const listViewOnEndReached = () => {
-    if (status !== Status.fotterLoading && status !== Status.error) {
+    if (status !== Status.fotterLoading) {
       dispatch(fetchTrendingMovies({page: currentPage + 1}));
     }
   };
 
   // Handle on refresh functionality
-  const onRefresh = () => {
-    dispatch(resetData());
-    dispatch(fetchTrendingMovies({page: 1}));
+  const onRefresh = async () => {
+    if (netInfo.isConnected) {
+      dispatch(resetData());
+      dispatch(fetchTrendingMovies({page: 1}));
+    }
   };
 
   return (
