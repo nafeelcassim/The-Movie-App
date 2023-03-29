@@ -1,5 +1,6 @@
 import React from 'react';
 import {SafeAreaView, FlatList, StyleSheet} from 'react-native';
+import {RefreshControl} from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message';
 import {MovieCardComponent} from '../../../components';
 import AppProgressIndicator from '../../../components/progressIndicator/AppProgressIndicator';
@@ -10,12 +11,21 @@ type MovieListViewProps = {
   movies: MoviesDataContent[];
   initialLoading: boolean;
   listViewOnEndReached(): void;
+  onRefresh(): void;
   status: Status;
   isEnd: boolean;
 };
 
 const MovieListView = (props: MovieListViewProps) => {
-  const {movies, initialLoading, listViewOnEndReached, isEnd, status} = props;
+  // Destructure the props
+  const {
+    movies,
+    initialLoading,
+    listViewOnEndReached,
+    isEnd,
+    status,
+    onRefresh,
+  } = props;
 
   const renderFotterLoader = () => {
     if (!isEnd && status !== Status.error) {
@@ -39,6 +49,9 @@ const MovieListView = (props: MovieListViewProps) => {
           onEndReachedThreshold={0.5}
           ListFooterComponent={renderFotterLoader}
           onEndReached={listViewOnEndReached}
+          refreshControl={
+            <RefreshControl refreshing={initialLoading} onRefresh={onRefresh} />
+          }
         />
       )}
 

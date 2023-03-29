@@ -5,6 +5,7 @@ import {Status} from '../../../util/constants';
 import MovieListView from '../view/MovieListView';
 
 const MovieListController = () => {
+  // Constants
   const dispatch = useAppDispatch();
   const movies = useAppSelector(state => state.movie.movies);
   const initialLoading = useAppSelector(state => state.movie.loading);
@@ -12,6 +13,7 @@ const MovieListController = () => {
   const currentPage = useAppSelector(state => state.movie.page);
   const isEnd = useAppSelector(state => state.movie.isEnd);
 
+  // Useeffect to fetch the initial Data
   useEffect(() => {
     const fetchData = () => {
       dispatch(fetchTrendingMovies({page: 1}));
@@ -27,6 +29,12 @@ const MovieListController = () => {
     }
   };
 
+  // Handle on refresh functionality
+  const onRefresh = () => {
+    dispatch(resetData());
+    dispatch(fetchTrendingMovies({page: 1}));
+  };
+
   return (
     <MovieListView
       movies={movies}
@@ -34,6 +42,7 @@ const MovieListController = () => {
       listViewOnEndReached={listViewOnEndReached}
       status={status}
       isEnd={isEnd}
+      onRefresh={onRefresh}
     />
   );
 };
