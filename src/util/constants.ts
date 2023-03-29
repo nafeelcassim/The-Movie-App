@@ -6,3 +6,10 @@ export const appConstants = {
 export const networkConstants = {
   getTopRatedMovies: 'movie/top_rated',
 };
+
+export enum Status {
+  idle,
+  error,
+  success,
+  fotterLoading,
+}

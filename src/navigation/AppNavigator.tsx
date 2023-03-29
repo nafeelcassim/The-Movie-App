@@ -18,6 +18,7 @@ const AppNavigator = (): JSX.Element => {
           component={MovieListView}
           options={{
             title: 'Top Rated Movies',
+            headerTitleAlign: 'center',
             headerStyle: {
               backgroundColor: '#002138',
             },
