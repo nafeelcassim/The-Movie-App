@@ -1,6 +1,9 @@
 export const appConstants = {
   notAvailableString: 'N/A',
   noImageUrl: 'https://static.thenounproject.com/png/3674271-200.png',
+  appBaseUrl: 'https://api.themoviedb.org/3/',
+  apiKey: '9618b5cf6ae9661f92fff553c697bed4',
+  imageBaseUrl: 'https://image.tmdb.org/t/p/w200',
 };
 
 export const networkConstants = {

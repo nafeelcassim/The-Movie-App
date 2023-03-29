@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {apiManager} from '../../network/apiManager';
+import apiManager from '../../network/apiManager';
 import {ErrorResponse} from '../../types/response/errorResponse';
 import {
   MoviesDataContent,

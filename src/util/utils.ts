@@ -1,5 +1,4 @@
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
-import config from './config';
 import {appConstants, ToastType} from './constants';
 
 export const getImage = (isError: boolean, path?: string): string => {
@@ -9,7 +8,7 @@ export const getImage = (isError: boolean, path?: string): string => {
   if (!path) {
     return appConstants.noImageUrl;
   }
-  const imageUrl = `${config.apiImageUrl}${path}`;
+  const imageUrl = `${appConstants.imageBaseUrl}${path}`;
   return imageUrl;
 };
 

@@ -3,6 +3,7 @@ import {useAppDispatch, useAppSelector} from '../../../store/hooks';
 import {fetchTrendingMovies, resetData} from '../../../store/slices/movieSlice';
 import {Status} from '../../../util/constants';
 import MovieListView from '../view/MovieListView';
+import NetInfo from '@react-native-community/netinfo';
 
 const MovieListController = () => {
   // Constants
@@ -21,6 +22,14 @@ const MovieListController = () => {
     dispatch(resetData());
     fetchData();
   }, [dispatch]);
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      console.log('Connection type', state.type);
+      console.log('Is connected?', state.isConnected);
+    });
+    unsubscribe();
+  }, []);
 
   // List View End Reached Method
   const listViewOnEndReached = () => {
