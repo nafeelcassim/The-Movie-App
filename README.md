@@ -33,10 +33,5 @@ Before running this application, make sure you have the following prerequisites 
 
 ### Installation
 
-1. Create a .env file in the root of the project and include the following content
-
-- API_BASE_URL=https://api.themoviedb.org/3/
-- API_KEY={Add the necessary API Key}
-
-2. Yarn install or npm install
-3. If you want to run IOS go to the ios directory and type 'pod install'
+1. Yarn install or npm install
+2. If you want to run IOS go to the ios directory and type 'pod install'
