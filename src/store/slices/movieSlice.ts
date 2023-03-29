@@ -1,12 +1,17 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import {apiManager} from '../../network/apiManager';
 import {ErrorResponse} from '../../types/response/errorResponse';
 import {
   MoviesDataContent,
   MoviesListResponse,
 } from '../../types/response/moviesListResponse';
-import {networkConstants, Status} from '../../util/constants';
+import {
+  appStrings,
+  networkConstants,
+  Status,
+  ToastType,
+} from '../../util/constants';
+import {showToastData} from '../../util/utils';
 
 interface MovieSliceState {
   loading: boolean;
@@ -87,13 +92,11 @@ const movieSlice = createSlice({
       .addCase(fetchTrendingMovies.rejected, (state: MovieSliceState) => {
         state.loading = false;
         state.status = Status.error;
-        Toast.show({
-          type: 'error',
-          text1: 'Error',
-          text2: 'Somethting went wrong while fetching data',
-          position: 'top',
-          visibilityTime: 3000,
-        });
+        showToastData(
+          ToastType.ERROR,
+          appStrings.ERROR,
+          appStrings.SOMETHING_WENT_WRONG,
+        );
       });
   },
 });
