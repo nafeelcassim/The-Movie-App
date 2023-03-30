@@ -80,7 +80,6 @@ const movieSlice = createSlice({
         fetchTrendingMovies.fulfilled,
         (state: MovieSliceState, action) => {
           state.loading = false;
-          console.log(action.payload.page);
           if (action.payload.page === 1) {
             state.movies = action.payload.movies;
           } else {

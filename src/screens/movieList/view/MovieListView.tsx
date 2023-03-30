@@ -10,7 +10,7 @@ import {
 } from '../../../components';
 
 import {MoviesDataContent} from '../../../types/response/moviesListResponse';
-import {Status} from '../../../util/constants';
+import {appStrings, Status} from '../../../util/constants';
 
 type MovieListViewProps = {
   movies: MoviesDataContent[];
@@ -55,7 +55,7 @@ const MovieListView = (props: MovieListViewProps) => {
                 onRefresh={() => onRefresh()}
               />
             }>
-            <NoDataViewComponent />
+            <NoDataViewComponent title={appStrings.noDataAvailable} />
           </ScrollView>
         </>
       ) : (

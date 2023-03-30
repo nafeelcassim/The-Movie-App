@@ -5,7 +5,6 @@ import NetInfo from '@react-native-community/netinfo';
 // Function to get and set image if any errors
 export const getImage = (isError: boolean, path?: string): string => {
   if (isError) {
-    console.log('I returned this');
     return appConstants.noImageUrl;
   }
   if (!path) {

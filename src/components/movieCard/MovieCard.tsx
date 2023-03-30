@@ -2,9 +2,11 @@ import React from 'react';
 import {View, Text, StyleSheet, ImageBackground} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {MoviesDataContent} from '../../types/response/moviesListResponse';
+import {commonStyles} from '../../util/commonStyles';
 import {appConstants} from '../../util/constants';
 import {getImage} from '../../util/utils';
 import CircularProgress from '../circularProgress/CircularProgress';
+import OtherContentRow from './OtherContentRow';
 
 type MovieCardProps = {
   data: Partial<MoviesDataContent>;
@@ -14,61 +16,51 @@ type MovieCardProps = {
 const MovieCard = (props: MovieCardProps) => {
   const {data, index} = props;
   return (
-    <>
-      <View style={styles.card}>
-        <CircularProgress
-          size={40}
-          strokeWidth={3}
-          text={`${Math.round(data.popularity ?? 0)}%`}
-          progressPercent={Math.round(data.popularity ?? 0)}
-          pgColor="green"
-          textColor="white"
-        />
+    <View style={styles.card}>
+      <CircularProgress
+        size={40}
+        strokeWidth={3}
+        text={`${Math.round(
+          (data.popularity ?? 0) > 100 ? 100 : data.popularity ?? 0,
+        )}%`}
+        progressPercent={Math.round(data.popularity ?? 0)}
+        pgColor="green"
+        textColor="white"
+      />
 
-        <View style={styles.cardContainer}>
-          <ImageBackground source={require('../../images/no_image.png')}>
-            <FastImage
-              style={styles.image}
-              source={{
-                uri: getImage(false, data.poster_path),
-              }}
-            />
-          </ImageBackground>
+      <View style={styles.cardContainer}>
+        <ImageBackground source={require('../../images/no_image.png')}>
+          <FastImage
+            style={styles.image}
+            source={{
+              uri: getImage(false, data.poster_path),
+            }}
+          />
+        </ImageBackground>
 
-          <View style={styles.contentData}>
-            <Text style={styles.originalTitle}>
-              {`#${index} ${
-                data.original_title ?? appConstants.notAvailableString
-              }`}
-            </Text>
-            <Text style={styles.title}>{`(${
-              data.title ?? appConstants.notAvailableString
-            })`}</Text>
-
-            <View style={styles.otherContentRow}>
-              <Text style={styles.otherContent}>{`${data.release_date} (${
-                data.original_language ?? appConstants.notAvailableString
-              })`}</Text>
-              <View style={styles.circleView} />
-              <View style={styles.adultBorder}>
-                <Text
-                  adjustsFontSizeToFit={true}
-                  style={styles.adultBorderText}>
-                  {data.adult ? 'R' : 'All'}
-                </Text>
-              </View>
-            </View>
-
-            <Text
-              ellipsizeMode="tail"
-              numberOfLines={4}
-              style={styles.otherContent}>
-              {data.overview ?? appConstants.notAvailableString}
-            </Text>
-          </View>
+        <View style={styles.contentData}>
+          <Text style={styles.originalTitle}>
+            {`#${index} ${
+              data.original_title ?? appConstants.notAvailableString
+            }`}
+          </Text>
+          <Text style={styles.title}>{`(${
+            data.title ?? appConstants.notAvailableString
+          })`}</Text>
+          <OtherContentRow
+            releaseData={data.release_date}
+            originalLanguage={data.original_language}
+            isAdult={data.adult}
+          />
+          <Text
+            ellipsizeMode="tail"
+            numberOfLines={4}
+            style={commonStyles.otherContent}>
+            {data.overview ?? appConstants.notAvailableString}
+          </Text>
         </View>
       </View>
-    </>
+    </View>
   );
 };
 
@@ -110,7 +102,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 14,
-    color: 'grey',
+    ...commonStyles.fontColor,
     fontWeight: '600',
   },
   otherContentRow: {
@@ -119,10 +111,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     alignContent: 'center',
-  },
-  otherContent: {
-    color: 'grey',
-    fontWeight: '300',
   },
   circleView: {
     height: 4,
@@ -144,7 +132,7 @@ const styles = StyleSheet.create({
   },
   adultBorderText: {
     fontSize: 11,
-    color: 'grey',
+    ...commonStyles.fontColor,
   },
   progress: {
     height: 20,

@@ -1,10 +1,15 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-const NoDataView = () => {
+type NoDataViewProps = {
+  title: string;
+};
+
+const NoDataView = (props: NoDataViewProps) => {
+  const {title} = props;
   return (
     <View style={styles.container}>
-      <Text>No Data Available</Text>
+      <Text>{title}</Text>
     </View>
   );
 };

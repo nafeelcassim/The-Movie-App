@@ -16,6 +16,7 @@ export const appStrings = {
   success: 'Success',
   somethingWentWrong: 'Something went wrong while fetching data',
   noNetworkConnectivity: 'You have lost your network connectivity',
+  noDataAvailable: 'No data available',
 };
 
 export enum Status {
