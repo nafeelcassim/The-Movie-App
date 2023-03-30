@@ -46,6 +46,10 @@ Before running this application, make sure you have the following prerequisites 
 
 This section provides a basic overview of the tools and technologies used
 
+### Basic Architecture of the App
+
+![Basic architecture of the app](https://user-images.githubusercontent.com/40332458/228937057-72fe7519-1b92-4292-aa86-d4d658c020bf.png)
+
 ### Major Libarires Used
 
 1. Redux Toolkit
