@@ -33,8 +33,9 @@ Before running this application, make sure you have the following prerequisites 
 
 ### Installation
 
-1. Yarn install or npm install
-2. If you want to run IOS go to the ios directory and type 'pod install'
+1. Clone or download the project from the repository
+2. Yarn install or npm install
+3. If you want to run IOS go to the ios directory and type 'pod install'
 
 ### Running the project
 
