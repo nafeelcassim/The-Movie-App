@@ -68,3 +68,6 @@ settings.json
 
 # Environemnt Varibles
 .env
+
+#jest files
+.jest
