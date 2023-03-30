@@ -62,10 +62,12 @@ const MovieListView = (props: MovieListViewProps) => {
         <FlashList
           data={movies}
           renderItem={({item, index}) => (
-            <MovieCardComponent data={item} index={index + 1} />
+            <>
+              <MovieCardComponent data={item} index={index + 1} />
+            </>
           )}
-          estimatedItemSize={400}
-          keyExtractor={item => String(item.id) ?? ''}
+          estimatedItemSize={200}
+          keyExtractor={item => String(item.id ?? 'uniqueId') ?? ''}
           onEndReachedThreshold={0.5}
           ListFooterComponent={renderFotterLoader}
           onEndReached={listViewOnEndReached}
