@@ -10,6 +10,8 @@ import renderer from 'react-test-renderer';
 import AppProgressIndicator from '../src/components/progressIndicator/AppProgressIndicator';
 import NoDataView from '../src/components/noData/NoDataView';
 import OtherContentRow from '../src/components/movieCard/OtherContentRow';
+import {mockGetImageFunc} from '../src/util/mockgetImageFunc';
+import {appConstants} from '../src/util/constants';
 
 // Check if App Prgress indicator renders correctly
 describe('App Prgress Indicator Component', () => {
@@ -64,5 +66,28 @@ describe('Other Row Content', () => {
   it('Renders the component when no parameter is passed', () => {
     const tree = renderer.create(<OtherContentRow />).toJSON();
     expect(tree).toMatchSnapshot();
+  });
+});
+
+// -------------------------------------------- Testing Functions --------------------------------------------
+
+describe('Function to get image from url ', () => {
+  const mockImageUrl = appConstants.imageBaseUrl;
+  const mockNoImageUrl = appConstants.noImageUrl;
+  const mockPath = '/image.jpg';
+
+  it('should return noImageUrl if isError is true', () => {
+    const result = mockGetImageFunc(true, mockPath);
+    expect(result).toEqual(mockNoImageUrl);
+  });
+
+  it('should return noImageUrl if path is not provided', () => {
+    const result = mockGetImageFunc(false);
+    expect(result).toEqual(mockNoImageUrl);
+  });
+
+  it('should return the full image url if isError is false and path is provided', () => {
+    const result = mockGetImageFunc(false, mockPath);
+    expect(result).toEqual(`${mockImageUrl}${mockPath}`);
   });
 });
