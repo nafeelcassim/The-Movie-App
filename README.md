@@ -8,6 +8,7 @@ An app to view all top rated movies through a movies API.
 - View details such as title, popularity, release date and overview
 - Store the top rated movies locally (can view without network)
 - Notify the user if there is no network connectivity
+- Pagination and pull to refresh functionality
 
 ## API Details
 
