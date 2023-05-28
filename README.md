@@ -1,6 +1,6 @@
 # The-Movie-App
 
-An app to view all top rated movies through a movies API.
+An app to view all top rated movies through a movies API. Developed using React Native.
 
 ## Features
 
